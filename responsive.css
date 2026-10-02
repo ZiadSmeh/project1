@@ -1,0 +1,646 @@
+/*
+ * responsive.css
+ * ============================================================================
+ * A single add-on stylesheet that makes coffee.html / aboutas.html /
+ * create.html responsive WITHOUT changing anything in coffee.css, aboutas.css,
+ * create.css, or the three .html files themselves.
+ *
+ * How it's linked: one extra <link> tag added to each page's <head>,
+ * loaded AFTER the page's own stylesheet (and after Bootstrap), so these
+ * rules simply add breakpoint-based overrides on top of the existing design.
+ * Above 1440px every page renders exactly as originally authored.
+ *
+ * Why so many !important flags: several Bootstrap 5 utility classes used in
+ * the markup (d-flex, flex-row/column, justify-content-*, align-items-*,
+ * gap-5, p-4 ...) are themselves declared with !important, and a couple of
+ * elements (.kinds / .kind on coffee.html) carry fixed-height inline
+ * style="" attributes. Only !important can reliably win against those from
+ * a separate stylesheet, so it is used consistently below rather than
+ * relying on selector-specificity tricks.
+ *
+ * Breakpoints:
+ *   <= 1439.98px  "laptop"  – original desktop design needs >=1440px of
+ *                             width (1280px content + 80px+80px body
+ *                             padding); below that it already overflows,
+ *                             so this tier makes every fixed-px container
+ *                             fluid while keeping the same multi-column
+ *                             layout.
+ *   <= 991.98px   "tablet"  – collection grid 4 -> 2 columns, headquarters
+ *                             3 -> wrap, a little more breathing room.
+ *   <= 767.98px   "mobile"  – everything stacks to one column, hamburger
+ *                             nav replaces the inline nav links, footer
+ *                             centers itself.
+ * ============================================================================
+ */
+
+/* =============================================================================
+   0. Hamburger button + collapsible nav
+      (button itself is injected by responsive.js; nav/wrap classes too)
+   ============================================================================= */
+.rsp-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.rsp-menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: #333D4B;
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.rsp-menu-toggle.rsp-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.rsp-menu-toggle.rsp-open span:nth-child(2) { opacity: 0; }
+.rsp-menu-toggle.rsp-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =============================================================================
+   1. <= 1439.98px  — fluid laptop tier (fixes the horizontal-scroll bug that
+      exists on almost any screen under ~1440px in the original CSS)
+   ============================================================================= */
+@media (max-width: 1439.98px) {
+
+    body {
+        padding: 40px 40px !important;
+        gap: 100px !important;
+    }
+
+    /* ---------- footer (identical markup on all 3 pages) ---------- */
+    .end .contant5 {
+        width: 100% !important;
+        height: auto !important;
+        flex-wrap: wrap !important;
+        row-gap: 16px !important;
+    }
+
+    /* ---------- coffee.html header ---------- */
+    .header .headertop,
+    .header .headertop .logo .contant,
+    .header .headertop .section1,
+    .header .headertop .section1 .contant1 {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .header .headertop .section1 .contant1 {
+        min-height: 460px !important;
+        background-image:
+            linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.55) 62%, rgba(0, 0, 0, 0.05) 100%),
+            url(./860c8df123844131ed36b3306e3664755d89e7b2.png) !important;
+        background-size: cover !important;
+        background-position: 65% center !important;
+        background-repeat: no-repeat !important;
+    }
+
+    .header .headertop .section1 .contant1 .coffee {
+        width: 100% !important;
+        max-width: 480px !important;
+        padding: 64px 32px !important;
+    }
+
+    .header .headertop .section1 .contant1 .coffee h1 {
+        width: 100% !important;
+        height: auto !important;
+        font-size: 52px !important;
+    }
+
+    .header .headertop .section1 .contant1 .coffee p {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* ---------- coffee.html: our collection ---------- */
+    .section2 .contant2,
+    .section2 .Categories,
+    .section2 .Types {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section2 .Categories {
+        background-size: 100% auto !important;
+    }
+
+    .section2 .Types > div {
+        width: calc(25% - 36px) !important;
+        height: auto !important;
+    }
+
+    .section2 .Types > div > div:first-child {
+        width: 100% !important;
+        height: 0 !important;
+        padding-bottom: 76% !important;
+    }
+
+    .section2 .Types > div > div:nth-child(2) {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* ---------- coffee.html: why choose us ---------- */
+    .section3 .contant3,
+    .section3 .choose {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section3 .choose {
+        padding: 56px 40px 90px !important;
+    }
+
+    .section3 .kinds {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section3 .kind {
+        height: auto !important;
+        padding: 32px 16px !important;
+    }
+
+    .section3 .kind .new {
+        width: 100% !important;
+        max-width: 285px !important;
+        height: auto !important;
+    }
+
+    /* ---------- coffee.html: how it works ---------- */
+    .section4 .contant4,
+    .section4 .cont,
+    .section4 .works {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section4 .cont > img {
+        display: none !important;
+    }
+
+    .section4 .cont {
+        padding-top: 24px !important;
+    }
+
+    .section4 .work {
+        width: calc(33.333% - 64px) !important;
+        height: auto !important;
+    }
+
+    /* ---------- aboutas.html + create.html share the same header markup ---------- */
+    .headers .logo,
+    .headers .logo .headertop,
+    .headers .logo .headerdoen {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .headers .logo .headerdoen {
+        min-height: 400px !important;
+        position: relative !important;
+        background-size: cover !important;
+        background-position: 60% center !important;
+    }
+
+    /* darken the hero photo under the text with an overlay layer, instead of
+       touching background-image (so we never need to know which photo file
+       each page uses — aboutas.css and create.css keep full control of that) */
+    .headers .logo .headerdoen::before {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 1 !important;
+        border-radius: inherit !important;
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.4) 55%, rgba(0, 0, 0, 0.05) 100%) !important;
+        pointer-events: none !important;
+    }
+
+    .headers .About {
+        width: 100% !important;
+        max-width: 445px !important;
+        padding-left: 40px !important;
+        height: auto !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .headers .About h2,
+    .headers .About p {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* ---------- aboutas.html: our commitment ---------- */
+    .section1 .commitment {
+        width: 100% !important;
+        height: auto !important;
+        gap: 48px !important;
+    }
+
+    .section1 .photo {
+        width: 42% !important;
+        height: auto !important;
+    }
+
+    .section1 .photo img {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 445 / 520;
+        object-fit: cover;
+    }
+
+    .section1 .text {
+        width: 54% !important;
+        height: auto !important;
+    }
+
+    .section1 .text h2,
+    .section1 .text p {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* ---------- aboutas.html: uncompromising quality ---------- */
+    .section2 .Das,
+    .section2 .quality {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section2 .quality {
+        padding: 48px 40px !important;
+    }
+
+    .section2 .Uncompromising {
+        width: 54% !important;
+        height: auto !important;
+    }
+
+    .section2 .Uncompromising h2,
+    .section2 .Uncompromising p {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section2 .phot {
+        width: 42% !important;
+        height: auto !important;
+    }
+
+    .section2 .phot img {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 445 / 474;
+        object-fit: cover;
+    }
+
+    /* ---------- aboutas.html: our headquarters ---------- */
+    .section3 .headquarters,
+    .section3 .headquarters h3,
+    .section3 .Country {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section3 .Country {
+        flex-wrap: wrap !important;
+        row-gap: 40px !important;
+    }
+
+    .section3 .Country > div {
+        width: 30% !important;
+        height: auto !important;
+    }
+
+    .section3 .Country > div > div {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section3 .Country h2,
+    .section3 .Country p {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* ---------- create.html: how it works band ---------- */
+    .section1 .cont {
+        width: 100% !important;
+        height: auto !important;
+        padding: 56px 40px !important;
+    }
+
+    .section1 .cont > img {
+        display: none !important;
+    }
+
+    .section1 .cont {
+        padding-top: 24px !important;
+    }
+
+    .section1 .works {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .section1 .work {
+        width: calc(33.333% - 64px) !important;
+        height: auto !important;
+    }
+
+    /* ---------- create.html: plan builder ---------- */
+    .section2 .type {
+        width: 100% !important;
+        height: auto !important;
+        gap: 48px !important;
+    }
+
+    .section2 .Elements {
+        width: 220px !important;
+        flex: 0 0 220px !important;
+        height: auto !important;
+    }
+
+    .section2 .Elements > div {
+        width: 100% !important;
+    }
+
+    .section2 .Options {
+        width: 100% !important;
+        flex: 1 1 0 !important;
+        height: auto !important;
+        min-height: 400px !important;
+    }
+}
+
+/* =============================================================================
+   2. <= 991.98px — tablet
+   ============================================================================= */
+@media (max-width: 991.98px) {
+
+    /* collection: 4 -> 2 columns */
+    .section2 .Types {
+        flex-wrap: wrap !important;
+        row-gap: 40px !important;
+    }
+
+    .section2 .Types > div {
+        width: calc(50% - 24px) !important;
+    }
+
+    /* why choose us: 3 -> 1 column */
+    .section3 .kinds {
+        flex-direction: column !important;
+        height: auto !important;
+        row-gap: 16px !important;
+    }
+
+    .section3 .kind,
+    .section3 .kinds .col-4 {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    /* how it works (both coffee.html & create.html): 3 -> 2 + wrap */
+    .section4 .works,
+    .section1 .works {
+        flex-wrap: wrap !important;
+        row-gap: 40px !important;
+    }
+
+    .section4 .work,
+    .section1 .work {
+        width: calc(50% - 48px) !important;
+    }
+
+    /* about: photo/text blocks stack */
+    .section1 .commitment {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .section1 .photo,
+    .section1 .text {
+        width: 100% !important;
+    }
+
+    .section2 .quality {
+        flex-direction: column-reverse !important;
+        align-items: stretch !important;
+        gap: 32px !important;
+    }
+
+    .section2 .Uncompromising,
+    .section2 .phot {
+        width: 100% !important;
+    }
+
+    .section3 .Country > div {
+        width: 45% !important;
+    }
+}
+
+/* =============================================================================
+   3. <= 767.98px — mobile
+   ============================================================================= */
+@media (max-width: 767.98px) {
+
+    body {
+        padding: 24px 20px !important;
+        gap: 64px !important;
+    }
+
+    /* safety net: no heading/paragraph should push past its box on a
+       narrow phone screen, even if a fixed font-size above wasn't reduced */
+    h1, h2, h3 {
+        overflow-wrap: break-word !important;
+    }
+
+    /* ---------- hamburger nav (all 3 pages) ---------- */
+    .rsp-menu-toggle {
+        display: flex !important;
+    }
+
+    .rsp-nav-wrap {
+        position: relative !important;
+    }
+
+    nav.rsp-nav {
+        display: none !important;
+        position: absolute !important;
+        top: calc(100% + 12px) !important;
+        right: 0 !important;
+        left: auto !important;
+        z-index: 30 !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        min-width: 220px !important;
+        padding: 8px 0 !important;
+        border-radius: 0.5rem !important;
+        background-color: #FEFCF7 !important;
+        box-shadow: 0 12px 32px rgba(51, 61, 75, 0.2) !important;
+    }
+
+    nav.rsp-nav.rsp-nav-open {
+        display: flex !important;
+    }
+
+    nav.rsp-nav a {
+        padding: 14px 24px !important;
+        width: auto !important;
+        height: auto !important;
+    }
+
+    /* ---------- footer stacks & centers (identical markup on all 3 pages) ---------- */
+    .end .contant5 {
+        flex-direction: column !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 24px !important;
+    }
+
+    .end .Commercial {
+        padding: 0 !important;
+        justify-content: center !important;
+    }
+
+    .end .navs {
+        padding: 0 !important;
+    }
+
+    .end .navs nav {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
+
+    .end .imoge {
+        padding: 0 !important;
+        justify-content: center !important;
+    }
+
+    /* ---------- coffee.html header ---------- */
+    .header .headertop {
+        gap: 24px !important;
+    }
+
+    .header .headertop .logo .contant {
+        flex-wrap: wrap !important;
+    }
+
+    .header .headertop .section1 .contant1 {
+        min-height: 0 !important;
+        background-position: 62% center !important;
+    }
+
+    .header .headertop .section1 .contant1 .coffee {
+        padding: 48px 20px !important;
+        max-width: 100% !important;
+    }
+
+    .header .headertop .section1 .contant1 .coffee h1 {
+        font-size: 40px !important;
+    }
+
+    .header .headertop .section1 .contant1 .coffee button {
+        width: 100% !important;
+    }
+
+    /* ---------- coffee.html: our collection, 2 -> 1 column ---------- */
+    .section2 .Types > div {
+        width: 100% !important;
+        max-width: 320px !important;
+        margin: 0 auto !important;
+    }
+
+    /* ---------- coffee.html: why choose us ---------- */
+    .section3 .choose {
+        padding: 48px 20px 80px !important;
+    }
+
+    .section3 .choose h1 {
+        font-size: 28px !important;
+    }
+
+    /* ---------- coffee.html + create.html: how it works, 1 column ---------- */
+    .section4 .works,
+    .section1 .works {
+        flex-direction: column !important;
+    }
+
+    .section4 .work,
+    .section1 .work {
+        width: 100% !important;
+    }
+
+    .section4 .work h2,
+    .section4 .work p,
+    .section1 .work h2,
+    .section1 .work p {
+        width: 100% !important;
+    }
+
+    .section4 .contant4 button {
+        width: 100% !important;
+    }
+
+    /* ---------- aboutas.html / create.html header ---------- */
+    .headers .logo {
+        gap: 24px !important;
+    }
+
+    .headers .logo .headertop {
+        flex-wrap: wrap !important;
+        row-gap: 12px !important;
+    }
+
+    .headers .About {
+        padding-left: 20px !important;
+    }
+
+    .headers .About h2 {
+        font-size: 30px !important;
+    }
+
+    /* headings that use the original 40px desktop size overflow their
+       narrow mobile column when they contain one long word */
+    .section1 .text h2,
+    .section2 .Uncompromising h2 {
+        font-size: 28px !important;
+        overflow-wrap: break-word !important;
+    }
+
+    /* ---------- aboutas.html: our headquarters, stack + center ---------- */
+    .section3 .Country {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        row-gap: 48px !important;
+    }
+
+    .section3 .Country > div {
+        width: 100% !important;
+        align-items: center !important;
+    }
+
+    /* ---------- create.html: plan builder, hide the numbered side-list ---------- */
+    .section2 .type {
+        flex-direction: column !important;
+    }
+
+    .section2 .Elements {
+        display: none !important;
+    }
+
+    .section2 .Options {
+        width: 100% !important;
+        flex: none !important;
+    }
+}
